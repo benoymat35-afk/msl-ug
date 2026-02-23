@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>User Guide Tutorials</title>
+  <style>
+    /* Base styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #9ecee8;
+      margin: 0;
+      padding: 20px;
+      padding-bottom: 100px;
+    }
+    h1 {
+      text-align: center;
+      color: #F17121;
+      margin-bottom: 30px;
+    }
+    h4, h5 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 15px;
+    }
+    /* Video grid layout and items */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .video-item {
+      background: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    .video-item h3 {
+      margin: 10px 0 0;
+      font-size: 1.1em;
+      color: #333;
+    }
+    /* Thumbnail container for relative positioning of play button */
+    .thumb-wrapper {
+      position: relative;
+      display: inline-block;
+    }
+    .thumb-wrapper img {
+      width: 100%;
+      height: auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      display: block;
+    }
+    /* Play button overlay */
+    .play-btn {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 60px;
+      height: 60px;
+      background: rgba(0, 0, 0, 0.6);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 30px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .play-btn:focus { outline: none; }
+    /* Modal overlay (hidden by default, shown when `.active` class is added) */
+    .modal {
+      position: fixed;
+      z-index: 1000;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      visibility: hidden;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    .modal.active {
+      visibility: visible;
+      opacity: 1;
+      pointer-events: auto;
+    }
+    /* Modal content area spans full viewport */
+    .modal-content {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      background: #000;
+    }
+    /* Back/close button at top-left of modal */
+    .back-button {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      font-size: 16px;
+      cursor: pointer;
+      z-index: 1100;
+    }
+    .back-button:focus { outline: none; }
+    /* Modal title (hidden if not used) */
+    .modal-title {
+      position: absolute;
+      top: 15px;
+      width: 100%;
+      text-align: center;
+      color: #fff;
+      font-size: 18px;
+      margin: 0;
+    }
+    /* Video element in modal */
+    #modalVideo {
+      width: 100%;
+      max-height: 100%;
+      background: #000;
+    }
+    /* Visually hidden element for screen reader announcements */
+    .visually-hidden { 
+      position: absolute;
+      left: -10000px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    /* Footer logo styling */
+    footer {
+      position: fixed;
+      bottom: 10px;
+      right: 10px;
+    }
+    footer img {
+      width: 150px;
+      height: auto;
+    }
+  </style>
+</head>
+<body>
+  <h1>Learn how to use the features in your Meeting Room</h1>
+  <h4>Video Tutorials for Microsoft Teams Rooms with Cisco Navigator Touch Controller</h4>
+
+  <!-- Video tutorial grid with image thumbnails and play buttons -->
+  <div class="video-grid">
+    <div class="video-item">
+      <div class="thumb-wrapper">
+        <img src="mtrnavigatorsidepanel.png" alt="Open Cisco Side Panel tutorial" />
+        <button class="play-btn" data-video-id="video1" data-video-src="mtrnavigatorsidepanel.mp4" 
+                data-video-title="Open Cisco Side Panel on Cisco Touch Panel">▶</button>
+      </div>
+      <h3>Open Cisco Side Panel on Cisco Touch Panel</h3>
+    </div>
+    <div class="video-item">
+      <div class="thumb-wrapper">
+        <img src="mtrnavigatormeetnow.png" alt="Start a New Meeting tutorial" />
+        <button class="play-btn" data-video-id="video2" data-video-src="mtrnavigatormeetnow.mp4" 
+                data-video-title="Start a New Meeting">▶</button>
+      </div>
+      <h3>Start a New Meeting</h3>
+    </div>
+    <!-- Repeat similar blocks for other tutorial thumbnails -->
+    <!-- ... -->
+  </div>
+
+  <h5>Note: This learning feature is currently in beta mode and has been enabled for testing purposes. Functionality may change prior to general availability.</h5>
+
+  <footer>
+    <img src="gskbrandmarkfullcolour.png" alt="Company Logo" />
+  </footer>
+
+  <!-- Full-screen modal for video playback -->
+  <div id="videoModal" class="modal" role="dialog" aria-hidden="true" aria-labelledby="modalTitle">
+    <div class="modal-content">
+      <!-- Back button to close the modal -->
+      <button id="closeModal" class="back-button" type="button">&larr; Back</button>
+      <!-- Modal title (populated dynamically) -->
+      <h2 id="modalTitle" class="modal-title" style="display: none;"></h2>
+      <!-- Video player element (source set dynamically, autoplay via script) -->
+      <video id="modalVideo" controls preload="auto"></video>
+    </div>
+  </div>
+
+  <!-- Screen reader announcements container (for accessibility) -->
+  <div id="sr-announcements" class="visually-hidden" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Include the JavaScript (inline script or external JS file) -->
+  <script src="app.js"></script>
+</body>
+</html>
